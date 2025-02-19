@@ -1,5 +1,5 @@
 import h5py
-from openmc.deplete import ResultsList
+from openmc.deplete import Results
 
 from config import UnitConfig
 
@@ -12,7 +12,7 @@ class ResultReader:
 class DepletionResultReader(ResultReader):
     def __init__(self, file_path: str, fuel_mat: str = 'Fuel', isotopes_list=None):
         super().__init__(file_path)
-        self.data = ResultsList.from_hdf5(file_path)
+        self.data = Results(file_path)
         self.units = UnitConfig()
         self.fuel_mat = fuel_mat
         if isotopes_list is None:
@@ -26,8 +26,8 @@ class DepletionResultReader(ResultReader):
         return [timestep.time[0] for timestep in self.data]
 
     def get_k(self):
-        _, k = self.data.get_eigenvalue()
-        return k
+        _, k = self.data.get_keff()
+        return k[:, 0]
 
     def get_atoms(self,
                   nuc_units: str = 'atoms',
@@ -49,9 +49,9 @@ class DepletionResultReader(ResultReader):
         if units is None:
             units = self.units
         data = {
-            'timestamps': self.timestamps,
-            'k_inf': self.get_k(),
-            "heat": self.get_power(units=units.heat),
-        } | self.get_atoms(nuc_units=units.atoms)
+                   'timestamps': self.timestamps,
+                   'k_inf': self.get_k(),
+                   "heat": self.get_power(units=units.heat),
+               } | self.get_atoms(nuc_units=units.atoms)
 
         return data

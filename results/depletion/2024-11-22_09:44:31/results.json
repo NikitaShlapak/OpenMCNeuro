@@ -1,1 +1,0 @@
-{"materials": {"fuel_enr": 3.5, "fuel_density": 8.0, "coolant_density": 1.0000000000000002, "cladding_density": 1}, "geometry": {"tvel_r": 0.9, "tvel_dist": 2.0, "cladding_thick": 0.1}, "experiment_number": 30, "start_time": "2024-11-22_09:44:31", "dir": "results/depletion/2024-11-22_09:44:31", "finish_time": "2024-11-22_10:00:26"}

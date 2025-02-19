@@ -1,0 +1,5 @@
+.idea
+openmc_simulation_*.h5
+statepoint*.h5
+neuro/*
+results/*

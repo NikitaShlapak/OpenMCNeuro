@@ -2,6 +2,8 @@ import json
 import os
 
 import openmc
+openmc.config['cross_sections'] = '/home/nikita/science/data/endfb-vii.1-hdf5/cross_sections.xml'
+openmc.config['chain_file'] = '/home/nikita/science/data/chains/chain_endfb71_pwr.xml'
 import pandas as pd
 from lxml import etree
 from tqdm import tqdm

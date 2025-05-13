@@ -49,7 +49,10 @@ def merge_context(exp_params: dict, mats: dict) -> dict:
 
 def prepare_sample(res_dir: str, save_dir: str = 'neuro/data/') -> None:
     mats_data = get_materials_info(res_dir)
-    params = json.load(open(os.path.join(res_dir, "results.json"), 'r'))
+    try:
+        params = json.load(open(os.path.join(res_dir, "results.json"), 'r'))
+    except:
+        params = json.load(open(os.path.join(res_dir, "config.json"), 'r'))
 
     # try:
     #     with open(results_path + os.listdir(results_path)[0] + "/results.json", 'r') as f:

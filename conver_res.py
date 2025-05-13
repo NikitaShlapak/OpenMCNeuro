@@ -76,7 +76,7 @@ def prepare_sample(res_dir: str, save_dir: str = 'neuro/data/') -> None:
 
 
 if __name__ == '__main__':
-    results_path = "results/depletion/v5/"
+    results_path = "results/depletion/v6/"
     print(os.listdir(results_path))
     # res = DepletionResultReader(results_path + os.listdir(results_path)[0] + "/depletion_results.h5", fuel_mat='2')
     # data = res.prepare_data()
@@ -90,7 +90,7 @@ if __name__ == '__main__':
     # print(params)
     for result_dir in tqdm(os.listdir(results_path)):
         res_dir = os.path.join(results_path, result_dir)
-        save_dir = os.path.join('results/neuro/data/v5', result_dir)
+        save_dir = os.path.join('results/neuro/data/v6', result_dir)
         try:
             prepare_sample(res_dir, save_dir)
         except Exception as e:

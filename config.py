@@ -11,7 +11,6 @@ class Config:
             setattr(self, key, value)
 
 
-@singleton
 class GeometryConfig(Config):
     tvel_r = 0.91
     tvel_dist = 2.2
@@ -29,7 +28,6 @@ class GeometryConfig(Config):
             raise ValueError(f'Lattice type {self.lat_type} not supported')
 
 
-@singleton
 class MaterialConfig(Config):
     fuel_enr = 5
     fuel_density = 8.3

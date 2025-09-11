@@ -1,16 +1,16 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <geometry>
-  <cell id="244" material="2" region="-811 820 -819" universe="83"/>
-  <cell id="245" material="5" region="811 -812 820 -819" universe="83"/>
-  <cell id="246" material="1" region="812 -813 814 -815 -818 816 817 820 -819" universe="83"/>
-  <surface coeffs="0.0 0.0 0.7" id="811" type="z-cylinder"/>
-  <surface coeffs="0.0 0.0 0.8999999999999999" id="812" type="z-cylinder"/>
-  <surface boundary="reflective" coeffs="0.7499999999999999" id="813" type="y-plane"/>
-  <surface boundary="reflective" coeffs="-0.7499999999999999" id="814" type="y-plane"/>
-  <surface boundary="reflective" coeffs="1.7320508075688772 1.0 0.0 1.4999999999999998" id="815" type="plane"/>
-  <surface boundary="reflective" coeffs="-1.7320508075688772 1.0 0.0 -1.4999999999999998" id="816" type="plane"/>
-  <surface boundary="reflective" coeffs="1.7320508075688772 1.0 0.0 -1.4999999999999998" id="817" type="plane"/>
-  <surface boundary="reflective" coeffs="-1.7320508075688772 1.0 0.0 1.4999999999999998" id="818" type="plane"/>
-  <surface boundary="vacuum" coeffs="190.0" id="819" type="z-plane"/>
-  <surface boundary="vacuum" coeffs="-190.0" id="820" type="z-plane"/>
+  <cell id="157" material="266" region="-521 530 -529" universe="54"/>
+  <cell id="158" material="270" region="521 -522 530 -529" universe="54"/>
+  <cell id="159" material="267" region="522 -523 524 -525 -528 526 527 530 -529" universe="54"/>
+  <surface coeffs="0.0 0.0 0.49999999999999994" id="521" type="z-cylinder"/>
+  <surface coeffs="0.0 0.0 0.7" id="522" type="z-cylinder"/>
+  <surface boundary="reflective" coeffs="1.125" id="523" type="y-plane"/>
+  <surface boundary="reflective" coeffs="-1.125" id="524" type="y-plane"/>
+  <surface boundary="reflective" coeffs="1.7320508075688772 1.0 0.0 2.25" id="525" type="plane"/>
+  <surface boundary="reflective" coeffs="-1.7320508075688772 1.0 0.0 -2.25" id="526" type="plane"/>
+  <surface boundary="reflective" coeffs="1.7320508075688772 1.0 0.0 -2.25" id="527" type="plane"/>
+  <surface boundary="reflective" coeffs="-1.7320508075688772 1.0 0.0 2.25" id="528" type="plane"/>
+  <surface boundary="vacuum" coeffs="190.0" id="529" type="z-plane"/>
+  <surface boundary="vacuum" coeffs="-190.0" id="530" type="z-plane"/>
 </geometry>

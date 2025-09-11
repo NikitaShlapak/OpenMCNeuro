@@ -12,7 +12,6 @@ class Material:
         self.mat.volume = volume
 
 
-@singleton
 class FuelMat(Material):
     def __init__(self, enr=5, density=8.3, name='Fuel'):
         super().__init__(name, density)
@@ -20,21 +19,18 @@ class FuelMat(Material):
         self.mat.add_element('O', 2)
 
 
-@singleton
 class WaterMat(Material):
     def __init__(self, name='Water', density=1):
         super().__init__(name, density)
         self.mat.add_element('O', 1)
         self.mat.add_element('H', 2)
 
-@singleton
 class AbsorberMat(Material):
     def __init__(self, name='Absorber', density=1):
         super().__init__(name, density)
         self.mat.add_element('B', 1)
         self.mat.add_element('O', 2)
 
-@singleton
 class CladdingMat(Material):
     def __init__(self, name='Cladding', density=1):
         super().__init__(name, density)

@@ -1,7 +1,9 @@
 import os.path
 import time
 import json
+import random
 
+from tqdm import tqdm
 import numpy as np
 import openmc
 from openmc import deplete, stats
@@ -10,19 +12,30 @@ from config import GeometryConfig, MaterialConfig
 from utils.geometry import TVEL
 from utils.materials import FuelMat, WaterMat, CladdingMat
 
+from utils.experiments import ParamGrid
+
+
 colors = {
     WaterMat().mat: (120, 120, 255),
     FuelMat().mat: 'green',
     CladdingMat().mat: (100, 100, 100)
 }
 
-
-def smooth_step(_from=1, _to=24, k=1.1):
-    steps = [_from]
-    while steps[-1] < _to:
-        steps.append(steps[-1] * k)
-    steps[-1] = _to
-    return steps
+DEFAULT_PARAMS= {
+            'materials': {
+                'fuel_enr': 5,
+                'fuel_density': 8.3,
+                'coolant_density': 1,
+                'cladding_density': 2
+            },
+            'geometry': {
+                'tvel_r': 1.0,
+                'tvel_dist': 2.0,
+                'cladding_thick': 0.1,
+                'lat_type':'hex'
+            },
+            'power': 3000e6 / 270 / 324
+        }
 
 
 def convert_dtypes(params: dict) -> dict:
@@ -41,29 +54,50 @@ def convert_dtypes(params: dict) -> dict:
     return params
 
 
+def update_params(old_params: dict[str, dict], new_params: dict[str]) -> dict[str, dict]:
+    for key, value in old_params.items():
+        if isinstance(value, dict):
+            update_params(value, new_params)
+        elif key in new_params.keys():
+            old_params[key] = new_params[key]
+    return old_params
+
+
+def iter_param_grid(prob: float = 1.0):
+    assert 0 < prob <= 1, "Probability must be between 0 and 1"
+    params = DEFAULT_PARAMS
+    params_grid = ParamGrid(
+        {
+            'tvel_r': list(np.arange(0.7, 1.5, 0.2)),
+            'tvel_dist': list(np.arange(1.0, 3.0, 0.5)),
+            'cladding_thick': [0.2],
+            'fuel_density': list([10.]),
+            'coolant_density': list(np.arange(0.5, 1.6, 0.5)),
+            'cladding_density': [3.],
+            'power': [1000, 10_000, 50_000, 100_000],
+            'fuel_enr': list(np.arange(3, 5, 0.5)),
+            'lat_type':['hex', 'sqr']
+        }
+    )
+
+    for i, param_dict in enumerate(params_grid.grid):        
+        if random.random() < prob:
+            continue
+        params['config_id']=str(i)
+        yield update_params(params, param_dict)
+
+
 def prepare_geometry_and_mats(geom_config: GeometryConfig, mats_config: MaterialConfig, params_: dict = None) -> dict:
     if params_ is None:
-        params_ = {
-            'materials': {
-                'fuel_enr': 5,
-                'fuel_density': 8.3,
-                'coolant_density': 1,
-                'cladding_density': 2
-            },
-            'geometry': {
-                'tvel_r': 1.0,
-                'tvel_dist': 2.0,
-                'cladding_thick': 0.1
-            }
-        }
+        params_ = DEFAULT_PARAMS
 
     geom_config.update(**params_['geometry'])
     mats_config.update(**params_['materials'])
 
     # Materials
     fuel = FuelMat(enr=mats_config.fuel_enr, density=mats_config.fuel_density, name='Fuel')
-    coolant = WaterMat(density=mats_config.coolant_density)
-    ceiling = CladdingMat(density=mats_config.cladding_density)
+    coolant = WaterMat(density=mats_config.coolant_density, name='Coolant')
+    ceiling = CladdingMat(density=mats_config.cladding_density, name='Cladding')
     _materials = openmc.Materials([fuel.mat, coolant.mat, ceiling.mat])
 
     tvel = TVEL(
@@ -87,23 +121,10 @@ def run_experiment(
         geom_config: GeometryConfig,
         mats_config: MaterialConfig,
         params: dict = None,
-        output_dir: str = 'results/depletion/'
+        output_dir: str = 'results/depletion/v7'
 ) -> None:
     if params is None:
-        params = {
-            'materials': {
-                'fuel_enr': 5,
-                'fuel_density': 8.3,
-                'coolant_density': 1,
-                'cladding_density': 2
-            },
-            'geometry': {
-                'tvel_r': 1.0,
-                'tvel_dist': 2.0,
-                'cladding_thick': 0.1
-            },
-            'power': 3000e6 / 270 / 324
-        }
+        params = DEFAULT_PARAMS
     start_time = time.strftime("%Y-%m-%d_%H:%M:%S")
     folder = params.get('config_id',start_time)
     output_dir = os.path.join(output_dir, folder)
@@ -179,6 +200,29 @@ def run_experiment(
         params['finish_time'] = time.strftime("%Y-%m-%d_%H:%M:%S")
         json.dump(convert_dtypes(params), f)
     # print(params)
+
+
+
+
+def run_one_experiment(
+        params: dict[str, dict[str]],
+        output_dir: str = 'results/depletion/'
+):
+    params['start_time'] = time.strftime("%Y-%m-%d_%H:%M:%S")
+    return run_experiment(GeometryConfig(), MaterialConfig(), params, output_dir)
+
+def run_all_experiments(start_from=0, output_dir='results/depletion/', skip_prob =0.5):
+    for i, p in tqdm(enumerate(iter_param_grid(skip_prob))):
+        if i < start_from:
+            continue
+        else:
+            p['experiment_number'] = i
+            try:
+                run_one_experiment(p, output_dir)
+            except Exception as e:
+                print(e)
+                continue
+
 
 
 if __name__ == '__main__':

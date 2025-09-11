@@ -193,7 +193,7 @@ def run_experiment(
         print(convert_dtypes(params))
         json.dump(convert_dtypes(params), f)
 
-    integrator = deplete.PredictorIntegrator(operator, time_steps, power, timestep_units='h')
+    integrator = deplete.PredictorIntegrator(operator, time_steps, power, timestep_units='d')
     integrator.integrate()
     params = convert_dtypes(params)
     with open(os.path.join(output_dir, 'results.json'), 'w') as f:

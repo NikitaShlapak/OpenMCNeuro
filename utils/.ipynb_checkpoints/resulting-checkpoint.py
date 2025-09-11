@@ -36,10 +36,21 @@ class DepletionResultReader(ResultReader):
                   filter_ = True
                   ):
         res = {}
-        for iso in self.isotopes:
+
+        if isinstance(filter_, list):
+            isos = filter_
+        else:
+            isos = self.isotopes
+
+        for iso in isos:
             _, atoms = self.data.get_atoms(mat=self.fuel_mat, nuc=iso, nuc_units=nuc_units)
-            if (filter_ and float(atoms.max() - atoms.min()) != 0 and atoms.max()>1e10) or not filter_:
+
+            if isinstance(filter_, bool):
+                if (filter_ and float(atoms.max() - atoms.min()) != 0 and atoms.max()>1e10):
+                    res[iso] = atoms
+            else:
                 res[iso] = atoms
+                
         return res
 
     def get_power(self, units: str = 'W'):
@@ -49,13 +60,13 @@ class DepletionResultReader(ResultReader):
         )
         return heat
 
-    def prepare_data(self, units: UnitConfig = None):
+    def prepare_data(self, units: UnitConfig = None, filter_=True):
         if units is None:
             units = self.units
         data = {
                    'timestamps': self.timestamps,
                    'k_inf': self.get_k(),
                    "heat": self.get_power(units=units.heat),
-               } | self.get_atoms(nuc_units=units.atoms)
+               } | self.get_atoms(nuc_units=units.atoms, filter_ = filter_)
 
         return data

@@ -47,29 +47,28 @@ def merge_context(exp_params: dict, mats: dict) -> dict:
             res[f"{mat_name}_{key}"] = value
     return res
 
-def prepare_sample(res_dir: str, save_dir: str = 'neuro/data/') -> None:
+def prepare_sample(res_dir: str, save_dir: str = 'neuro/data/', isos_file:str = None) -> None:
     mats_data = get_materials_info(res_dir)
     try:
         params = json.load(open(os.path.join(res_dir, "results.json"), 'r'))
     except:
         params = json.load(open(os.path.join(res_dir, "config.json"), 'r'))
 
-    # try:
-    #     with open(results_path + os.listdir(results_path)[0] + "/results.json", 'r') as f:
-    #         enr = f.read().split('"fuel_enr": ')[1].split(',')[0]
-    # except FileNotFoundError:
-    #     enr = 3
-    # params = {
-    #     'enr': float(enr),
-    #     "materials": {},
-    #     'geometry': {}
-    # }
+    if isos_file is None:
+        filter_ = True
+    else:
+        try:
+            with open(isos_file, 'r') as f:
+                filter_ = f.read().splitlines()
+        except:
+            filter_ =True
     
     context = merge_context(params, mats_data)
 
     fuel_id = context.pop('fuel_id', '2')
     dep_res = DepletionResultReader(os.path.join(res_dir, "depletion_results.h5"), fuel_mat=fuel_id)
-    df = pd.DataFrame(dep_res.prepare_data())
+    df = pd.DataFrame(dep_res.prepare_data(filter_=filter_))
+    print(df.columns)
     os.makedirs(save_dir, exist_ok=True)
     json.dump(context, open(os.path.join(save_dir, "context.json"), 'w'))
     df.to_csv(os.path.join(save_dir, "data.csv"))
@@ -95,6 +94,6 @@ if __name__ == '__main__':
         res_dir = os.path.join(results_path, result_dir)
         save_dir = os.path.join('results/neuro/data/v6', result_dir)
         try:
-            prepare_sample(res_dir, save_dir)
+            prepare_sample(res_dir, save_dir, isos_file = 'isotopes.txt')
         except Exception as e:
             print(f"Failed to prepare sample: {res_dir}", e)

@@ -9,7 +9,7 @@ import openmc
 from openmc import deplete, stats
 
 from config import GeometryConfig, MaterialConfig
-from utils.geometry import TVEL
+from utils.geometry import TVEL, SqrTVEL
 from utils.materials import FuelMat, WaterMat, CladdingMat
 
 from utils.experiments import ParamGrid
@@ -91,6 +91,9 @@ def prepare_geometry_and_mats(geom_config: GeometryConfig, mats_config: Material
     if params_ is None:
         params_ = DEFAULT_PARAMS
 
+    if params_['geometry']['lat_type']=='sqr':
+        params_['geometry']['tvel_dist'] *=  0.5 * 3**(3/4)
+
     geom_config.update(**params_['geometry'])
     mats_config.update(**params_['materials'])
 
@@ -100,12 +103,21 @@ def prepare_geometry_and_mats(geom_config: GeometryConfig, mats_config: Material
     ceiling = CladdingMat(density=mats_config.cladding_density, name='Cladding')
     _materials = openmc.Materials([fuel.mat, coolant.mat, ceiling.mat])
 
-    tvel = TVEL(
-        g_config=geom_config,
-        fuel=fuel,
-        ceiling=ceiling,
-        coolant=coolant
-    )
+
+    if params_['geometry']['lat_type']=='hex':
+        tvel = TVEL(
+            g_config=geom_config,
+            fuel=fuel,
+            ceiling=ceiling,
+            coolant=coolant
+        )
+    elif params_['geometry']['lat_type']=='sqr':
+        tvel = SqrTVEL(
+            g_config=geom_config,
+            fuel=fuel,
+            ceiling=ceiling,
+            coolant=coolant
+        )
     tvel.calculate_volumes()
     # Geometry
     _geometry = openmc.Geometry(tvel.universe)

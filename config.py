@@ -23,7 +23,7 @@ class GeometryConfig(Config):
         if self.lat_type == 'hex':
             return self.tvel_dist * 3 ** 0.5 / 2
         elif self.lat_type == 'sqr':
-            return self.tvel_dist
+            return self.tvel_dist /2
         else:
             raise ValueError(f'Lattice type {self.lat_type} not supported')
 

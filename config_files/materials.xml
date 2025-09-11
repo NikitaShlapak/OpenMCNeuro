@@ -1,24 +1,22 @@
 <?xml version='1.0' encoding='utf-8'?>
 <materials>
-  <material depletable="true" id="266" name="Fuel" volume="298.45130209103024">
+  <material depletable="true" id="6" name="Fuel" volume="298.45130209103024">
     <density units="g/cm3" value="10.0"/>
-    <nuclide ao="0.00040712390870120436" name="U234"/>
-    <nuclide ao="0.045549059817946165" name="U235"/>
-    <nuclide ao="0.953835179701444" name="U238"/>
-    <nuclide ao="0.00020863657190853607" name="U236"/>
-    <nuclide ao="1.9952412" name="O16"/>
+    <nuclide ao="0.0002714687807976247" name="U234"/>
+    <nuclide ao="0.030371951808732825" name="U235"/>
+    <nuclide ao="0.9692174612830511" name="U238"/>
+    <nuclide ao="0.00013911812741848606" name="U236"/>
+    <nuclide ao="1.999242" name="O16"/>
     <nuclide ao="0.000758" name="O17"/>
-    <nuclide ao="0.0040008" name="O18"/>
   </material>
-  <material id="267" name="Coolant" volume="1081.0518184318946">
-    <density units="g/cm3" value="1.0"/>
-    <nuclide ao="0.9976206" name="O16"/>
+  <material id="7" name="Coolant" volume="402.3044082158407">
+    <density units="g/cm3" value="0.5"/>
+    <nuclide ao="0.999621" name="O16"/>
     <nuclide ao="0.000379" name="O17"/>
-    <nuclide ao="0.0020004" name="O18"/>
     <nuclide ao="1.99968852" name="H1"/>
     <nuclide ao="0.00031148" name="H2"/>
   </material>
-  <material id="270" name="Zircaloy-2" volume="537.2123437638545">
+  <material id="10" name="Zircaloy-2" volume="537.2123437638545">
     <density units="g/cm3" value="6.56"/>
     <nuclide ao="7.568990000000001e-05" name="Cr50"/>
     <nuclide ao="0.0014596043800000002" name="Cr52"/>
@@ -33,9 +31,8 @@
     <nuclide ao="8.800028e-06" name="Ni61"/>
     <nuclide ao="2.805834e-05" name="Ni62"/>
     <nuclide ao="7.145632000000001e-06" name="Ni64"/>
-    <nuclide ao="0.0067808272182" name="O16"/>
+    <nuclide ao="0.006794423937" name="O16"/>
     <nuclide ao="2.576063e-06" name="O17"/>
-    <nuclide ao="1.3596718799999999e-05" name="O18"/>
     <nuclide ao="0.0001036542" name="Sn112"/>
     <nuclide ao="7.05276e-05" name="Sn114"/>
     <nuclide ao="3.63324e-05" name="Sn115"/>

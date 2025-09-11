@@ -5,12 +5,12 @@
   <cell id="3" material="7" region="2 -3 4 -5 -8 6 7 10 -9" universe="2"/>
   <surface coeffs="0.0 0.0 0.49999999999999994" id="1" type="z-cylinder"/>
   <surface coeffs="0.0 0.0 0.7" id="2" type="z-cylinder"/>
-  <surface boundary="reflective" coeffs="0.8660254037844386" id="3" type="y-plane"/>
-  <surface boundary="reflective" coeffs="-0.8660254037844386" id="4" type="y-plane"/>
-  <surface boundary="reflective" coeffs="1.7320508075688772 1.0 0.0 1.7320508075688772" id="5" type="plane"/>
-  <surface boundary="reflective" coeffs="-1.7320508075688772 1.0 0.0 -1.7320508075688772" id="6" type="plane"/>
-  <surface boundary="reflective" coeffs="1.7320508075688772 1.0 0.0 -1.7320508075688772" id="7" type="plane"/>
-  <surface boundary="reflective" coeffs="-1.7320508075688772 1.0 0.0 1.7320508075688772" id="8" type="plane"/>
+  <surface boundary="reflective" coeffs="1.125" id="3" type="y-plane"/>
+  <surface boundary="reflective" coeffs="-1.125" id="4" type="y-plane"/>
+  <surface boundary="reflective" coeffs="1.7320508075688772 1.0 0.0 2.25" id="5" type="plane"/>
+  <surface boundary="reflective" coeffs="-1.7320508075688772 1.0 0.0 -2.25" id="6" type="plane"/>
+  <surface boundary="reflective" coeffs="1.7320508075688772 1.0 0.0 -2.25" id="7" type="plane"/>
+  <surface boundary="reflective" coeffs="-1.7320508075688772 1.0 0.0 2.25" id="8" type="plane"/>
   <surface boundary="vacuum" coeffs="190.0" id="9" type="z-plane"/>
   <surface boundary="vacuum" coeffs="-190.0" id="10" type="z-plane"/>
 </geometry>

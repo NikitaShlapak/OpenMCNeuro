@@ -63,8 +63,8 @@ def update_params(old_params: dict[str, dict], new_params: dict[str]) -> dict[st
     return old_params
 
 
-def iter_param_grid(prob: float = 1.0):
-    assert 0 < prob <= 1, "Probability must be between 0 and 1"
+def iter_param_grid(prob: float = 0.0):
+    assert 0 <= prob < 1, "Probability must be between 0 and 1"
     params = DEFAULT_PARAMS
     params_grid = ParamGrid(
         {
@@ -82,6 +82,8 @@ def iter_param_grid(prob: float = 1.0):
 
     for i, param_dict in enumerate(params_grid.grid):        
         if random.random() < prob:
+            continue
+        if param_dict["tvel_r"]*2.1>param_dict["tvel_dist"]:
             continue
         params['config_id']=str(i)
         yield update_params(params, param_dict)

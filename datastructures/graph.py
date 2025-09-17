@@ -20,6 +20,7 @@ class MatSurfGraph():
     cylinders:dict=None
     edges:list=None
     isotopes:tuple = None
+    lattype:str = None # 'hex' or 'sqr'
     
     def __init__(self, nodes:list[NeutronicGraphNode], isotopes:tuple=None):
 
@@ -54,6 +55,12 @@ class MatSurfGraph():
                     pre_edges.append((mat_id, surf_id))
         
         self.edges = self._convert_edges(pre_edges=pre_edges)
+
+        if len(self.planes.values()) - 2 == 6:
+            self.lattype = 'hex'
+        elif len(self.planes.values()) - 2 == 4:
+            self.lattype = 'sqr'
+
     
     def _convert_edges(self, pre_edges:list[tuple[int, int]])->list:
         edges = []
@@ -66,9 +73,7 @@ class MatSurfGraph():
             edges.append((mat_ind, surf_ind))
             edges.append((surf_ind, mat_ind))
 
-        return edges            
-
-
+        return edges
     
     @property
     def all_nodes(self) -> list:

@@ -40,7 +40,8 @@ class MatSurfGcn(torch.nn.Module):
         self.graph_conv1 = GCNConv(inter_dim1, inter_dim2)
         self.graph_conv2 = GCNConv(inter_dim2, out_dim)
 
-        self.reg_head = torch.nn.Linear(14, 1)
+        self.reg_head_hex = torch.nn.Linear(14, 1)
+        self.reg_head_sqr = torch.nn.Linear(12, 1)
 
         self.to(device)
     
@@ -50,6 +51,11 @@ class MatSurfGcn(torch.nn.Module):
         planes = torch.as_tensor(list(graph.planes.values())).to(self.device)
         power = torch.as_tensor([power/10_000]).to(self.device)[None,:]
         edges = torch.as_tensor(graph.edges, dtype=torch.long).t().contiguous().to(self.device)
+
+        if graph.lattype =='hex':
+            reg_head = self.reg_head_hex
+        elif graph.lattype =='sqr':
+            reg_head = self.reg_head_sqr
 
         mats = self.material_encoder(mats).relu()
         cyls = self.cylinder_encoder(cyls).relu()
@@ -62,7 +68,7 @@ class MatSurfGcn(torch.nn.Module):
         # x = torch.nn.SELU()(x)
         x = F.dropout(x, training=self.training)
         x = self.graph_conv2(x, edges)
-        x = self.reg_head(x.T)
+        x = reg_head(x.T)
         # x = torch.nn.SELU()(x)
         return x.mean(dim=0)
     

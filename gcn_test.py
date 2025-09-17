@@ -1,4 +1,4 @@
-from datastructures.graph import load_pair, load_res,load_x,  BASE_DIR
+from datastructures.graph import load_pair, load_res,load_x
 from neural_models.gcn import MatSurfGcn
 import os
 from tqdm import tqdm
@@ -8,7 +8,8 @@ import torch
 import json
 from utils.experiments import ParamGrid
 
-SAVE_DIR = "/home/nikita/PycharmProjects/OpenMC/neuro/models/v6/gcn3"
+SAVE_DIR = "/home/nikita/PycharmProjects/OpenMC/neuro/models/v7/gcn"
+BASE_DIR = "/run/media/nikita/e40c1d03-27f0-4c5f-b778-1710c9a842d0/data/server_sync/data/v7/"
 
 
 def pair_loader(dirs:list[str]):

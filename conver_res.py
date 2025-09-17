@@ -25,12 +25,14 @@ def get_materials_info(results_path):
             "volume": float(child.get('volume', 0)),
             "density": float(child.find('density').get('value', 0)),
         }
-        if child.get('name') == 'Water':
+        if child.get('name') == 'Water' or child.get('name') == 'Coolant':
+            info['id'] = child.get('id', '2')
             res['water'] = info
         elif child.get('name') == 'Fuel':
             info['id'] = child.get('id', '2')
             res['fuel'] = info
         elif child.get('name') == 'Zircaloy-2':
+            info['id'] = child.get('id', '2')
             res['cladding'] = info
         else:
             print("Material not found: ", child.get('name'))
@@ -64,11 +66,11 @@ def prepare_sample(res_dir: str, save_dir: str = 'neuro/data/', isos_file:str = 
             filter_ =True
     
     context = merge_context(params, mats_data)
-
-    fuel_id = context.pop('fuel_id', '2')
+    
+    fuel_id = context.get('fuel_id', '2')
     dep_res = DepletionResultReader(os.path.join(res_dir, "depletion_results.h5"), fuel_mat=fuel_id)
     df = pd.DataFrame(dep_res.prepare_data(filter_=filter_))
-    print(df.columns)
+
     os.makedirs(save_dir, exist_ok=True)
     json.dump(context, open(os.path.join(save_dir, "context.json"), 'w'))
     df.to_csv(os.path.join(save_dir, "data.csv"))

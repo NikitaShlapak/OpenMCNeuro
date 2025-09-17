@@ -18,7 +18,7 @@ class DepletionResultReader(ResultReader):
         self.fuel_mat = fuel_mat
         if isotopes_list is None:
             smp = data[-1]
-            isotopes = [ x.name for x in smp.get_material('2').nuclides]
+            isotopes = [ x.name for x in smp.get_material(fuel_mat).nuclides]
             isotopes_list = isotopes
         self.isotopes = isotopes_list
 

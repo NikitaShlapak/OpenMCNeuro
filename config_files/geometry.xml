@@ -1,16 +1,14 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <geometry>
-  <cell id="1" material="6" region="-1 10 -9" universe="2"/>
-  <cell id="2" material="10" region="1 -2 10 -9" universe="2"/>
-  <cell id="3" material="7" region="2 -3 4 -5 -8 6 7 10 -9" universe="2"/>
-  <surface coeffs="0.0 0.0 0.49999999999999994" id="1" type="z-cylinder"/>
-  <surface coeffs="0.0 0.0 0.7" id="2" type="z-cylinder"/>
-  <surface boundary="reflective" coeffs="1.125" id="3" type="y-plane"/>
-  <surface boundary="reflective" coeffs="-1.125" id="4" type="y-plane"/>
-  <surface boundary="reflective" coeffs="1.7320508075688772 1.0 0.0 2.25" id="5" type="plane"/>
-  <surface boundary="reflective" coeffs="-1.7320508075688772 1.0 0.0 -2.25" id="6" type="plane"/>
-  <surface boundary="reflective" coeffs="1.7320508075688772 1.0 0.0 -2.25" id="7" type="plane"/>
-  <surface boundary="reflective" coeffs="-1.7320508075688772 1.0 0.0 2.25" id="8" type="plane"/>
-  <surface boundary="vacuum" coeffs="190.0" id="9" type="z-plane"/>
-  <surface boundary="vacuum" coeffs="-190.0" id="10" type="z-plane"/>
+  <cell id="1726" material="2881" region="-5177 5184 -5183" universe="577"/>
+  <cell id="1727" material="2885" region="5177 -5178 5184 -5183" universe="577"/>
+  <cell id="1728" material="2882" region="5178 5179 -5180 5181 -5182 5184 -5183" universe="577"/>
+  <surface coeffs="0.0 0.0 0.8999999999999999" id="5177" type="z-cylinder"/>
+  <surface coeffs="0.0 0.0 1.0999999999999999" id="5178" type="z-cylinder"/>
+  <surface boundary="reflective" coeffs="-1.424691910596736" id="5179" name="minimum x" type="x-plane"/>
+  <surface boundary="reflective" coeffs="1.424691910596736" id="5180" name="maximum x" type="x-plane"/>
+  <surface boundary="reflective" coeffs="-1.424691910596736" id="5181" name="minimum y" type="y-plane"/>
+  <surface boundary="reflective" coeffs="1.424691910596736" id="5182" name="maximum y" type="y-plane"/>
+  <surface boundary="vacuum" coeffs="190.0" id="5183" type="z-plane"/>
+  <surface boundary="vacuum" coeffs="-190.0" id="5184" type="z-plane"/>
 </geometry>

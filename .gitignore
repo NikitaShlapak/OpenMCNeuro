@@ -6,4 +6,6 @@ statepoint*.h5
 neuro/*
 results/*
 __pycache__
-
+***.pdf
+tape*
+njoy/*

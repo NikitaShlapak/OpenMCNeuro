@@ -5,12 +5,12 @@ O17
 Cr50
 Cr52
 Cr53
-Cr54
 Fe54
+Cr54
 Fe56
 Fe57
-Ni58
 Fe58
+Ni58
 Ni60
 Ni61
 Ni62

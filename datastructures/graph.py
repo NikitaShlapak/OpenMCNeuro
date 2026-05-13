@@ -39,6 +39,10 @@ class MatSurfGraph():
                 for nuc_name, nuc_count in isos.items():
                     mat_comp[nuc_name]=float(nuc_count)
                 volume = float(vol_dens.get('volume'))
+                if node.node_name =='Fuel':
+                    setattr(self, 'U_V', volume)
+                elif node.node_name == 'Coolant':
+                    setattr(self, 'W_V', volume)
                 density = float(vol_dens.get('density'))
                 data = list(mat_comp.values())+[volume, density]
                 self.materials[str(node.node_id)]=data
@@ -60,6 +64,8 @@ class MatSurfGraph():
             self.lattype = 'hex'
         elif len(self.planes.values()) - 2 == 4:
             self.lattype = 'sqr'
+        else:
+            self.lattype = None
 
     
     def _convert_edges(self, pre_edges:list[tuple[int, int]])->list:
@@ -74,6 +80,20 @@ class MatSurfGraph():
             edges.append((surf_ind, mat_ind))
 
         return edges
+    
+    @property
+    def WURelation(self):
+        if hasattr(self, 'U_V') and hasattr(self, 'W_V'):
+            return self.W_V / self.U_V
+        else:
+            return None
+    
+    @property
+    def total_volume(self):
+        V = 0
+        for mat in self.materials.values():
+            V+=mat[-2]
+        return V
     
     @property
     def all_nodes(self) -> list:
@@ -139,6 +159,7 @@ def load_graph(
             node_name = name,
             node_id = int(mat_id)
         )
+
         # print(node)
         neutro_nodes.append(node)
     for surface_id, surface_data in surfs.items():
@@ -202,7 +223,7 @@ def load_x(
 
 def load_res(resultfilepath:str):
     results = pd.read_csv(resultfilepath, index_col=0)
-    return results.k_inf.values[-1]-1
+    return results.k_inf.values[1]
 
 def load_pair(
     basedir:str = BASE_DIR,
